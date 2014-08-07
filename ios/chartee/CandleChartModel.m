@@ -67,6 +67,20 @@
             CGContextMoveToPoint(context, ix+chart.plotWidth/2, sec.frame.origin.y+sec.paddingTop);
             CGContextAddLineToPoint(context,ix+chart.plotWidth/2,sec.frame.size.height+sec.frame.origin.y);
             CGContextStrokePath(context);
+        
+            //添加横线
+            CGFloat origianlX =  sec.frame.origin.x+sec.paddingLeft;
+            CGFloat y = iyc;//取收盘价格
+
+            if(!isnan(y)&&y!=0&&self.isShowHorLine){
+                CGContextSetShouldAntialias(context, YES);
+                CGContextSetStrokeColorWithColor(context, [[UIColor alloc] initWithWhite:0.826 alpha:1.000].CGColor);
+                CGFloat endX = CGRectGetMaxX(sec.frame)-sec.paddingRight;
+                CGContextMoveToPoint(context, origianlX, y);
+                CGContextAddLineToPoint(context, endX, y);
+                CGContextStrokePath(context);
+            }
+        
         }
         
         if(close == open){
@@ -111,6 +125,7 @@
         CGContextMoveToPoint(context, ix+chart.plotWidth/2, iyh);
         CGContextAddLineToPoint(context,ix+chart.plotWidth/2,iyl);
         CGContextStrokePath(context);
+        
     }
 }
 

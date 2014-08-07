@@ -12,5 +12,5 @@
 #import "Chart.h"
 
 @interface LineChartModel: ChartModel
-
+@property(nonatomic,assign,getter = isShowHorLine)BOOL showHorLine;//default NO
 @end

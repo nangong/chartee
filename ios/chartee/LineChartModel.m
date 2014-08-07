@@ -33,10 +33,11 @@
     if(chart.selectedIndex!=-1 && chart.selectedIndex < data.count && [data objectAtIndex:chart.selectedIndex]!=nil){
         float value = [[[data objectAtIndex:chart.selectedIndex] objectAtIndex:0] floatValue];
         CGContextSetShouldAntialias(context, NO);
-        CGContextSetStrokeColorWithColor(context, [[UIColor alloc] initWithRed:0.2 green:0.2 blue:0.2 alpha:1.0].CGColor);
+        CGContextSetStrokeColorWithColor(context, [[UIColor alloc] initWithWhite:0.826 alpha:1.000].CGColor);
         CGContextMoveToPoint(context, sec.frame.origin.x+sec.paddingLeft+(chart.selectedIndex-chart.rangeFrom)*chart.plotWidth+chart.plotWidth/2, sec.frame.origin.y+sec.paddingTop);
         CGContextAddLineToPoint(context,sec.frame.origin.x+sec.paddingLeft+(chart.selectedIndex-chart.rangeFrom)*chart.plotWidth+chart.plotWidth/2,sec.frame.size.height+sec.frame.origin.y);
         CGContextStrokePath(context);
+
         
         CGContextSetShouldAntialias(context, YES);
         CGContextBeginPath(context); 
@@ -44,7 +45,22 @@
         if(!isnan([chart getLocalY:value withSection:section withAxis:yAxis])){
             CGContextAddArc(context, sec.frame.origin.x+sec.paddingLeft+(chart.selectedIndex-chart.rangeFrom)*chart.plotWidth+chart.plotWidth/2, [chart getLocalY:value withSection:section withAxis:yAxis], 3, 0, 2*M_PI, 1);
         }
-        CGContextFillPath(context); 
+        CGContextFillPath(context);
+        
+        //添加横线
+        if(!isnan([chart getLocalY:value withSection:section withAxis:yAxis])&&self.isShowHorLine){
+            CGContextSetShouldAntialias(context, YES);
+            CGContextSetStrokeColorWithColor(context, [[UIColor alloc] initWithWhite:0.826 alpha:1.000].CGColor);
+            
+            CGFloat y = [chart getLocalY:value withSection:section withAxis:yAxis];
+            CGFloat origianlX =  sec.frame.origin.x+sec.paddingLeft;
+            CGFloat endX = CGRectGetMaxX(sec.frame)-sec.paddingRight;
+
+            CGContextMoveToPoint(context, origianlX, y);
+            CGContextAddLineToPoint(context, endX, y);
+            CGContextStrokePath(context);
+    
+        }
     }
     
     CGContextSetShouldAntialias(context, YES);

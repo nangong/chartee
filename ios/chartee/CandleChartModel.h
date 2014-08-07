@@ -12,5 +12,5 @@
 #import "Chart.h"
 
 @interface CandleChartModel : ChartModel
-
+@property(nonatomic,assign,getter = isShowHorLine)BOOL showHorLine;//default NO
 @end
